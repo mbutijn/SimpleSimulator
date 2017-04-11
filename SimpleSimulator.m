@@ -223,7 +223,7 @@ if strcmp(key,'return')
         pushbutton1_Callback(hObject, eventdata, handles)
     end
 elseif strcmp(key,'delete')
-    eval('clear all'); 
+    %eval('clear all'); 
     initialize;
 end
 
