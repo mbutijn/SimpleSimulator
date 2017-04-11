@@ -56,38 +56,6 @@ handles.timer = timer('ExecutionMode','fixedRate','Period',0.05,'TimerFcn',{@upd
 clc
 
 
-function makeSignal
-% Table 1. Multi-sine forcing function properties
-data = [[ 1   6  0.460 1.397 1.288   5  0.383 0.601 -2.069];
-        [ 2  13  0.997 0.977 6.089  11  0.844 0.788  2.065];
-        [ 3  27  2.071 0.441 5.507  23  1.764 0.48  -2.612];
-        [ 4  41  3.145 0.237 1.734  37  2.838 0.313  3.759];
-        [ 5  53  4.065 0.159 2.019  51  3.912 0.331  4.739];
-        [ 6  73  5.599 0.099 0.441  71  5.446 0.411  1.856];
-        [ 7 103  7.900 0.063 5.175 101  7.747 0.55   1.376];
-        [ 8 139 10.661 0.046 3.415 137 10.508 0.753  2.792];
-        [ 9 194 14.880 0.036 1.066 171 13.116 0.992  3.288];
-        [10 229 17.564 0.033 3.479 226 17.334 1.481  3.381]];
-
-% Time
-T = 81.90;
-dt = 0.05;
-t = 0:dt:T;
-assignin('base','time',t);
-assignin('base','N',length(t));
-
-% Base freqency
-omega_0 = 2*pi/T;
-
-% Target forcing function
-ft = zeros(size(t));
-for i = 1:10
-    ft = ft + data(i,4)*sin(data(i,2)*omega_0.*t+data(i,5));
-end
-
-assignin('base','ft',ft);
-
-
 function varargout = SimpleSimulator_OutputFcn(hObject, eventdata, handles) 
 varargout{1} = handles.output;
 
@@ -102,18 +70,6 @@ function edit1_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
-
-function initialize
-assignin('base', 'y', 0);
-assignin('base', 'ydot', 0);
-assignin('base', 'ydotdot', 0);
-assignin('base', 'oldu', 0);
-assignin('base', 't', 0);
-assignin('base', 'E', 0);
-assignin('base', 'U', 0);
-assignin('base', 'i', 1);
-makeSignal;
 
 
 function mouseMove(object, eventdata, handles)
@@ -132,15 +88,13 @@ else
     ft = ft(i);
     handles.edit4.set('String',ft);
     
-%     m = 10; % mass
-%     k = 10; % spring stiffness
-%     c = 1; % damping coefficient
-    
+    % Baseline Dynamics parameters
     Ka = 10.6189;
     T1 = 0.9906;
     T2 = 2.7565;
     T3 = 7.6122;
     
+    % Stick Gain
     Ks = 0.29;
     K = Ka * Ks;
     
@@ -154,7 +108,6 @@ else
     y = evalin('base','y');
     ydot = evalin('base','ydot');
     ydotdot = evalin('base','ydotdot');
-    %ydotdot = (k*(u-y)+c*(udot-ydot))/m; % Spring mass damper (2nd order system)
     ydotdotdot = -T2*ydotdot - T3*ydot + K*udot + K*T1*u;
     ydotdot = ydotdot + ydotdotdot * 0.05;
     assignin('base','ydotdot',ydotdot);
