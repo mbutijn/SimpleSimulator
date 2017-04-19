@@ -131,7 +131,9 @@ else
     % Store time index
     assignin('base','i',i+1);
     
-    plot(handles.axes1,[-0.5 -0.05 -0.05 0.05 0.05 0.5 0.5 -0.5],[0 0 -0.5 -0.5 0 0 ft-y ft-y],'k') % Aircraft symbol
+    % plot(handles.axes1,[-0.2 0 0.2 0 -0.2 -0.2 0.2],[y-0.1 y y-0.1 y+0.1 y-0.1 ft ft],'k') % Aircraft symbol
+    plot(handles.axes1,[-0.2 -0.05 -0.05 0.05 0.05 0.2 -0.2 0.],[0 0 -0.05 -0.05 0 0 ft-y ft-y],'k') % Aircraft symbol
+
     axis(handles.axes1,[-1 1 -3 3]); % Bounds
 end
 
@@ -207,9 +209,6 @@ plot(time(time_portion),U);
 legend('error','control effort');
 xlabel('time [s]');
 hold off;
-disp(strcat('variance of the error signal is:',32,num2str(var(E))));
-disp(strcat('variance of the control signal is:',32,num2str(var(U))));
-
 
 
 function pushbutton4_CreateFcn(hObject, eventdata, handles)
