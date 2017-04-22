@@ -5,7 +5,7 @@ clc;
 addpath('..');
 
 % Get the performance from 22 April 2017
-performance = load('April 22 2017, 1630');
+performance = load('April 22 2017, 1809');
 error = performance.e;
 control = performance.u_s;
 

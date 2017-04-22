@@ -45,7 +45,7 @@ end
 
 
 % --- Executes just before SimpleSimulator is made visible.
-function SimpleSimulator_OpeningFcn(hObject, eventdata, handles, varargin)
+function SimpleSimulator_OpeningFcn(hObject, ~, handles, varargin)
 handles.output = hObject;
 guidata(hObject, handles);
 set(gcf, 'WindowButtonMotionFcn', {@mouseMove,handles});
@@ -56,28 +56,28 @@ handles.timer = timer('ExecutionMode','fixedRate','Period',0.05,'TimerFcn',{@upd
 clc
 
 
-function varargout = SimpleSimulator_OutputFcn(hObject, eventdata, handles) 
+function varargout = SimpleSimulator_OutputFcn(~, ~, handles) 
 varargout{1} = handles.output;
 
 
-function axes1_CreateFcn(hObject, eventdata, handles)
+function axes1_CreateFcn(~, ~, ~)
 
 
-function edit1_Callback(hObject, eventdata, handles)
+function edit1_Callback(~, ~, ~)
 
 
-function edit1_CreateFcn(hObject, eventdata, handles)
+function edit1_CreateFcn(hObject, ~, ~)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-function mouseMove(object, eventdata, handles)
+function mouseMove(~, ~, handles)
 C = get(gca, 'CurrentPoint');
 handles.edit1.set('String',C(1,2));
 
 
-function update_display(hObject, eventdata, handles)
+function update_display(~, ~, handles)
 i = evalin('base','i');
 
 if i == evalin('base','N')
@@ -140,11 +140,11 @@ else
 end
 
 
-function figure1_CloseRequestFcn(hObject, eventdata, handles)
+function figure1_CloseRequestFcn(hObject, ~, ~)
 delete(hObject);
 
 
-function figure1_DeleteFcn(hObject, eventdata, handles)
+function figure1_DeleteFcn(hObject, ~, ~)
 disp('close');
 listOfTimers = timerfindall;
 stop(listOfTimers);
@@ -152,56 +152,56 @@ delete(listOfTimers);
 delete(hObject);
 
 
-function edit2_Callback(hObject, eventdata, handles)
+function edit2_Callback(~, ~, ~)
 
 
-function edit2_CreateFcn(hObject, eventdata, handles)
+function edit2_CreateFcn(hObject, ~, ~)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-function edit3_Callback(hObject, eventdata, handles)
+function edit3_Callback(~, ~, ~)
 
 
-function edit3_CreateFcn(hObject, eventdata, handles)
+function edit3_CreateFcn(hObject, ~, ~)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-function pushbutton1_Callback(hObject, eventdata, handles)
+function pushbutton1_Callback(~, ~, ~)
 listOfTimers = timerfindall;
 start(listOfTimers(1));
 
 
-function pushbutton2_Callback(hObject, eventdata, handles)
+function pushbutton2_Callback(~, ~, ~)
 listOfTimers = timerfindall;
 stop(listOfTimers(1));
 
 
-function edit4_Callback(hObject, eventdata, handles)
+function edit4_Callback(~, ~, ~)
 
 
-function edit4_CreateFcn(hObject, eventdata, handles)
+function edit4_CreateFcn(hObject, ~, ~)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-function pushbutton3_Callback(hObject, eventdata, handles)
+function pushbutton3_Callback(~, ~, handles)
 initialize
 makeSignal
 handles.edit5.set('String', '0 [s]');
 cla
 
 
-function pushbutton3_CreateFcn(hObject, eventdata, handles)
+function pushbutton3_CreateFcn(~, ~, ~)
 
 
-function pushbutton4_Callback(hObject, eventdata, handles)
+function pushbutton4_Callback(~, ~, ~)
 % This function throws out data
-figure(1);
+figure(7);
 cla;
 hold on;
 time = evalin('base','time');
@@ -218,7 +218,7 @@ disp(strcat('variance of the error signal is:',32,num2str(var(e))));
 disp(strcat('variance of the control signal is:',32,num2str(var(u_s))));
 
 
-function pushbutton4_CreateFcn(hObject, eventdata, handles)
+function pushbutton4_CreateFcn(~, ~, ~)
 
 
 function figure1_WindowKeyPressFcn(hObject, eventdata, handles)
@@ -237,10 +237,10 @@ elseif strcmp(key,'delete')
 end
 
 
-function edit5_Callback(hObject, eventdata, handles)
+function edit5_Callback(~, ~, ~)
 
 
-function edit5_CreateFcn(hObject, eventdata, handles)
+function edit5_CreateFcn(hObject, ~, ~)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end

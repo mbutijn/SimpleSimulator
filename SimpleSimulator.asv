@@ -52,27 +52,27 @@ set(gcf, 'WindowButtonMotionFcn', {@mouseMove,handles});
 initialize;
 makeSignal;
 handles.timer = timer('ExecutionMode','fixedRate','Period',0.05,'TimerFcn',{@update_display,handles});
-set(handles.pushbutton4,'String',sprintf(['Plot and save','\n, 'Performance']));
+
 clc
 
 
-function varargout = SimpleSimulator_OutputFcn(hObject, eventdata, handles) 
+function varargout = SimpleSimulator_OutputFcn(~, ~, handles) 
 varargout{1} = handles.output;
 
 
-function axes1_CreateFcn(hObject, eventdata, handles)
+function axes1_CreateFcn(~, ~, ~)
 
 
 function edit1_Callback(hObject, eventdata, handles)
 
 
-function edit1_CreateFcn(hObject, eventdata, handles)
+function edit1_CreateFcn(hObject, ~, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-function mouseMove(object, eventdata, handles)
+function mouseMove(~, eventdata, handles)
 C = get(gca, 'CurrentPoint');
 handles.edit1.set('String',C(1,2));
 
@@ -152,7 +152,7 @@ delete(listOfTimers);
 delete(hObject);
 
 
-function edit2_Callback(hObject, eventdata, handles)
+function edit2_Callback(~, ~, handles)
 
 
 function edit2_CreateFcn(hObject, eventdata, handles)
@@ -183,7 +183,7 @@ stop(listOfTimers(1));
 function edit4_Callback(hObject, eventdata, handles)
 
 
-function edit4_CreateFcn(hObject, eventdata, handles)
+function edit4_CreateFcn(hObject, ~, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -213,13 +213,12 @@ plot(time(time_portion),u_s);
 legend('error','control effort');
 xlabel('time [s]');
 hold off;
-save(datetime,'e','u_s');
+save(datestr(now,'mmmm dd yyyy, HHMM'),'e','u_s');
 disp(strcat('variance of the error signal is:',32,num2str(var(e))));
 disp(strcat('variance of the control signal is:',32,num2str(var(u_s))));
 
 
 function pushbutton4_CreateFcn(hObject, eventdata, handles)
-%set(handles.pushbutton4,'String','hallo')
 
 
 function figure1_WindowKeyPressFcn(hObject, eventdata, handles)
