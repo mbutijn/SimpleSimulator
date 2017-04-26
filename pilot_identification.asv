@@ -1,18 +1,16 @@
+close(figure(6))
+
 % Make use of functions in C:\Users\martin\Documents\Master\AE4020_Literature_study
 addpath('..');
 
 % Get the performance from 22 April 2017
-performance = load('April 26 2017, 1703');
+performance = load('April 26 2017, 1645');
 error = performance.e;
 control = performance.u_s;
 
-% Get rid of the transient behaviour
-% first_entry = 262;
-first_entry = 523; % this is the data from the first 13.08 seconds
-
 % Display some performance results:
-disp(strcat('variance of the error signal is:',32,num2str(var(error(first_entry:end)))));
-disp(strcat('variance of the control signal is:',32,num2str(var(control(first_entry:end)))));
+disp(strcat('variance of the error signal is:',32,num2str(var(error(262:end)))));
+disp(strcat('variance of the control signal is:',32,num2str(var(control(262:end)))));
 
 % Get the table with frequencies, Amplitudes and phase delays
 if ~exist('matrix','var')
@@ -25,15 +23,15 @@ if ~exist('ft','var') || ~exist('omega_m','var')
 end
 
 % Fourier Transforms
-FT = fft(ft(first_entry:end)); % [j*omega]
+FT = fft(ft(262:end)); % [j*omega]
 Sftft = FT.*conj(FT); % PSD
 
 % Error
-E = fft(error(first_entry:end));
+E = fft(error(262:end));
 See = E.*conj(E);
 
 % Control
-U = fft(control(first_entry:end));
+U = fft(control(262:end));
 Suu = U.*conj(U);
 
 % Pilot power spectral density from direct division
@@ -42,7 +40,6 @@ H_pilot_d = U./E;
 %% Plot the frequencies
 % Gain
 figure(6);
-clf
 subplot(2,1,1);
 set(gca, 'XScale', 'log');
 set(gca, 'YScale', 'log');
@@ -61,9 +58,9 @@ subplot(2,1,2);
 set(gca, 'XScale', 'log');
 hold on
 phase_diffs_t = angle(H_pilot_d(matrix(:,2)+1));
-semilogx(matrix(:,2).*omega_m, rad2deg(unwrap2(phase_diffs_t,0.25*pi)),'r*');
+semilogx(matrix(:,2).*omega_m, rad2deg(unwrap2(phase_diffs_t,0.5*pi)),'r*');
 phase_diffs_d = angle(H_pilot_d(matrix(:,6)+1));
-semilogx(matrix(:,6).*omega_m, rad2deg(unwrap2(phase_diffs_d,0.25*pi)),'b*');
+semilogx(matrix(:,6).*omega_m, rad2deg(unwrap2(phase_diffs_d,0.5*pi)),'b*');
 legend('forcing','disturbance','Location','southwest');
 xlabel('\omega [rad/s]');
 ylabel('\angle H [deg]');
