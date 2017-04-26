@@ -1,14 +1,11 @@
-% Make use of functions in C:\Users\martin\Documents\Master\AE4020_Literature_study
-addpath('..');
-
-% Get the performance from 22 April 2017
-performance = load('April 26 2017, 1703');
+% Get the performance from 26 April 2017
+performance = load('April 26 2017, 1734');
 error = performance.e;
 control = performance.u_s;
 
 % Get rid of the transient behaviour
 % first_entry = 262;
-first_entry = 523; % this is the data from the first 13.08 seconds
+first_entry = 524; % this is the data from the first 13.08 seconds
 
 % Display some performance results:
 disp(strcat('variance of the error signal is:',32,num2str(var(error(first_entry:end)))));
@@ -61,9 +58,9 @@ subplot(2,1,2);
 set(gca, 'XScale', 'log');
 hold on
 phase_diffs_t = angle(H_pilot_d(matrix(:,2)+1));
-semilogx(matrix(:,2).*omega_m, rad2deg(unwrap2(phase_diffs_t,0.25*pi)),'r*');
+semilogx(matrix(:,2).*omega_m, rad2deg(unwrap2(phase_diffs_t,0.75*pi)),'r*');
 phase_diffs_d = angle(H_pilot_d(matrix(:,6)+1));
-semilogx(matrix(:,6).*omega_m, rad2deg(unwrap2(phase_diffs_d,0.25*pi)),'b*');
+semilogx(matrix(:,6).*omega_m, rad2deg(unwrap2(phase_diffs_d,0.75*pi)),'b*');
 legend('forcing','disturbance','Location','southwest');
 xlabel('\omega [rad/s]');
 ylabel('\angle H [deg]');
