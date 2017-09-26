@@ -49,10 +49,11 @@ function SimpleSimulator_OpeningFcn(hObject, ~, handles, varargin)
 handles.output = hObject;
 guidata(hObject, handles);
 set(gcf, 'WindowButtonMotionFcn', {@mouseMove,handles});
-% addpath('..');
-makeSignal(0.025, getSignalMatrix);
+Ts = 0.05; % Sample time
+assignin('base','Ts',Ts);
+makeSignal(Ts, getSignalMatrix);
 initialize;
-handles.timer = timer('ExecutionMode','fixedRate','Period',0.025,'TimerFcn',{@update_display,handles});
+handles.timer = timer('ExecutionMode','fixedRate','Period',Ts,'TimerFcn',{@update_display,handles,Ts});
 
 clc
 
@@ -78,13 +79,13 @@ C = get(gca, 'CurrentPoint');
 handles.edit1.set('String',C(1,2));
 
 
-function update_display(~, ~, handles)
+function update_display(~, ~, handles, Ts)
 i = evalin('base','i');
 
 if i == evalin('base','N')+1
     pushbutton2_Callback;
 else
-    handles.edit5.set('String',strcat(num2str(sprintf('%0.2f',(i-1)*0.025)),32,'[s]'));
+    handles.edit5.set('String',strcat(num2str(sprintf('%0.2f',(i-1)*Ts)),32,'[s]'));
     ft = evalin('base','ft');
     ft = ft(i);
     handles.edit4.set('String',ft);
@@ -107,7 +108,7 @@ else
     mouse = get(handles.axes1, 'CurrentPoint');
     oldu = evalin('base','oldu');
     u = -mouse(1,2);
-    udot = (u - oldu)/0.025;
+    udot = (u - oldu)/Ts;
     assignin('base', 'oldu', u)
     
     % Control effort
@@ -121,11 +122,11 @@ else
     ydot = evalin('base','ydot');
     ydotdot = evalin('base','ydotdot');
     ydotdotdot = -T2*ydotdot - T3*ydot + K*udot + K*T1*u;
-    ydotdot = ydotdot + ydotdotdot * 0.025;
+    ydotdot = ydotdot + ydotdotdot * Ts;
     assignin('base','ydotdot',ydotdot);
-    ydot = ydot + ydotdot * 0.025;
+    ydot = ydot + ydotdot * Ts;
     assignin('base','ydot', ydot);
-    y = y + ydot * 0.025;
+    y = y + ydot * Ts;
     handles.edit2.set('String',y);
     assignin('base','y', y);
     
@@ -193,7 +194,7 @@ end
 
 
 function pushbutton3_Callback(~, ~, handles)
-makeSignal(0.025, getSignalMatrix);
+makeSignal(evalin('base','Ts'), getSignalMatrix);
 initialize
 handles.edit5.set('String', '0 [s]');
 cla
@@ -235,7 +236,7 @@ if strcmp(key,'return')
         pushbutton1_Callback(hObject, eventdata, handles)
     end
 elseif strcmp(key,'delete')
-    makeSignal(0.025, getSignalMatrix);
+    makeSignal(evalin('base','Ts'), getSignalMatrix);
     initialize;
 end
 
