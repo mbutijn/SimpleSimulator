@@ -58,9 +58,9 @@ subplot(2,1,2);
 set(gca, 'XScale', 'log');
 hold on
 phase_diffs_t = angle(H_pilot_d(matrix(:,2)+1));
-semilogx(matrix(:,2).*omega_m, rad2deg(unwrap2(phase_diffs_t,0.75*pi)),'r*');
+semilogx(matrix(:,2).*omega_m, rad2deg(unwrap2(phase_diffs_t,0.25*pi)),'r*');
 phase_diffs_d = angle(H_pilot_d(matrix(:,6)+1));
-semilogx(matrix(:,6).*omega_m, rad2deg(unwrap2(phase_diffs_d,0.75*pi)),'b*');
+semilogx(matrix(:,6).*omega_m, rad2deg(unwrap2(phase_diffs_d,0.25*pi)),'b*');
 legend('forcing','disturbance','Location','southwest');
 xlabel('\omega [rad/s]');
 ylabel('\angle H [deg]');

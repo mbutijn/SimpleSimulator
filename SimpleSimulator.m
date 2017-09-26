@@ -49,6 +49,7 @@ function SimpleSimulator_OpeningFcn(hObject, ~, handles, varargin)
 handles.output = hObject;
 guidata(hObject, handles);
 set(gcf, 'WindowButtonMotionFcn', {@mouseMove,handles});
+% addpath('..');
 makeSignal(0.025, getSignalMatrix);
 initialize;
 handles.timer = timer('ExecutionMode','fixedRate','Period',0.025,'TimerFcn',{@update_display,handles});

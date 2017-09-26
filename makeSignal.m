@@ -1,5 +1,5 @@
 function makeSignal(dt, matrix)
-% Time [20 Hz]
+% Time [40 Hz]
 T = 95;
 t = 0:dt:T;
 assignin('base','time',t);
